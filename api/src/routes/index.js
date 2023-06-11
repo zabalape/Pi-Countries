@@ -1,14 +1,14 @@
-const { Router } = require("express");
-const router = Router();
-const sendData = require('../utils/data/sendData');
-router.get('/countries', async (req, res) => {
-  try {
-    const countries = await sendData();
-    res.send(countries);
-  } catch (error) {
-    console.error('Error al obtener los datos de la API:', error);
-    res.status(500).json({ error: 'Error al obtener los datos de la API' });
-  }
-});
+const { Router } = require('express');
+const countriesRouter = require('./countries');
+const activitiesRouter = require('./activities');
+const usersRouter = require('./users');
+const utilsRouter = require('./utils');
+const isAuthenticated = require('../utils/controller/isAuthenticated');
 
+const router = Router();
+
+router.use('/countries', isAuthenticated, countriesRouter);
+router.use('/activities', isAuthenticated,activitiesRouter);
+router.use('/users',isAuthenticated, usersRouter);
+router.use('/utils', utilsRouter);
 module.exports = router;

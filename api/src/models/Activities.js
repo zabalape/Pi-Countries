@@ -25,7 +25,23 @@ module.exports = (sequelize) => {
     season: {
         type: DataTypes.STRING,
         allowNull: false,
-    }
+    },
+    countryId: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'countries',
+          key: 'id',
 
+    }
+    },
+    
+    userId: {
+        type: DataTypes.UUID,
+        references: {
+          model: 'users',
+          key: 'id',
+
+    }
+    }
 });
 }

@@ -27,15 +27,15 @@ modelDefiners.forEach(model => model(sequelize));
 let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
-sequelize.sync();
-const { Countries, Activities } = sequelize.models;
+const { Countries, Activities, User } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
-Countries.belongsToMany(Activities, { through : 'acId'});
-Activities.belongsTo(Countries, {through: 'acId'});
-
+Countries.belongsToMany(Activities, { through: 'activity_country', foreignKey: 'countryId' });
+Activities.belongsToMany(Countries, { through: 'activity_country', foreignKey: 'activityId' });
+User.hasMany(Activities);
+Activities.belongsTo(User, { foreignKey: 'userId' })
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
